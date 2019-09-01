@@ -1,5 +1,5 @@
-class OrderDiscountCalculatore
-  attr_accessor :order_item, :product
+class OrderDiscount
+  attr_accessor :order, :product
 
   def initialize(order)
     @order = order
@@ -15,9 +15,13 @@ class OrderDiscountCalculatore
 
   private
   def orders_total
-    order_items_prices = order.order_items.pluck(:total) if order.order_items
+    order_items_prices = order.order_items.map {|item| item.total} if order.order_items
+    
     unless order_items_prices.empty?
       @sub_total = order_items_prices.compact.reduce(0, :+)
+
+      @grand_total = @sub_total unless @sub_total >= 150
+      
       if @sub_total >= 150
         @grand_total = (@sub_total - 20) 
         @discount = 20

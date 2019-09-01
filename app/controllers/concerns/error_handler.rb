@@ -27,6 +27,6 @@ module ErrorHandler
   end
 
   def render_error(error)
-    render json: ErrorSerializer.new(error), status: error.status
+    error_response(ErrorSerializer.new(error), error.status)
   end
 end

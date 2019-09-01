@@ -18,9 +18,9 @@ ActiveRecord::Schema.define(version: 2019_09_01_123205) do
   create_table "order_items", force: :cascade do |t|
     t.bigint "product_id"
     t.bigint "order_id"
-    t.integer "quantity"
-    t.float "total"
-    t.float "discount"
+    t.integer "quantity", default: 0, null: false
+    t.float "total", default: 0.0, null: false
+    t.float "discount", default: 0.0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
@@ -28,9 +28,10 @@ ActiveRecord::Schema.define(version: 2019_09_01_123205) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.float "subtotal"
-    t.float "grand_total"
-    t.float "discount"
+    t.float "subtotal", default: 0.0, null: false
+    t.float "grand_total", default: 0.0, null: false
+    t.float "discount", default: 0.0, null: false
+    t.string "status", default: "open", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

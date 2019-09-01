@@ -1,6 +1,6 @@
 module Errors
   class StandardError < ::StandardError
-    def initialize(title: nil, detail: nil, status: nil)
+    def initialize(title=nil, detail=nil, status=nil)
       @title = title || "Something went wrong"
       @detail = detail || "We encountered unexpected error, but our developers had been already notified about it"
       @status = status || 500
@@ -10,7 +10,7 @@ module Errors
       {
         status: status,
         title: title,
-        detail: detail,
+        detail: detail
       }
     end
 
@@ -22,6 +22,6 @@ module Errors
       to_h.to_s
     end
 
-    attr_reader :title, :detail, :status, :source
+    attr_reader :title, :detail, :status
   end
 end

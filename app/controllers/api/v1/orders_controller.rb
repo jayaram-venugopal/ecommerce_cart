@@ -1,25 +1,21 @@
 class Api::V1::OrdersController < ApplicationController
+  before_action :find_ptoducts, only: [:create]
+  before_action :set_order, only: [:show, :update, :delete]
 
-  def index
-    
+  def create
+    @cart = AddToCart.new(params[:order]).create_order
   end
 
-  def add_to_cart
-    @cart = 
-  end
-
-  def cart_details
-    
+  def show
+    json_response(serializer(@order))
   end
 
   private
-  def cart_params
-    params.require(:cart).permit(:product_id, :quantity)
-  end
-
-  def find_product
-    @product = Product.find(params[:cart][:product_id])
-    raise ActiveRecord::RecordNotFound if @product.nil?
+  def set_order
+    @order = Order.includes(order_items: (:product)).find(params[:id])
   end
   
+  def serializer(data)
+    OrderSerializer.new(data)
+  end
 end

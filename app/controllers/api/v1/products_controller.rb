@@ -1,5 +1,5 @@
 class Api::V1::ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :update, :exit, :delete]
+  before_action :set_product, only: [:show, :update, :delete]
   
   def index
     json_response(serialize_array(Product.all))
@@ -10,7 +10,7 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.create(params[:product])
+    @product = Product.create(product_params)
     json_response(serializer(@product), :create)
   end
 
