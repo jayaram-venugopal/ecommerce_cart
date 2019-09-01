@@ -6,8 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-prices = [30 ,20 ,50 ,15]
-
-input = Array.new(4) { {:name => Faker::Commerce.product_name, :price => prices[Random.rand(prices.length)], :quantity => Faker::Number.within(range: 1..10)}}
+input = [{:name => Faker::Commerce.product_name, :price => 30, :category => "A", :quantity => Faker::Number.within(range: 5..10)}, {:name => Faker::Commerce.product_name, :price => 20, :category => "B", :quantity => Faker::Number.within(range: 5..10)}, {:name => Faker::Commerce.product_name, :price => 50, :category => "C", :quantity => Faker::Number.within(range: 5..10)}, {:name => Faker::Commerce.product_name, :price => 15, :category => "D", :quantity => Faker::Number.within(range: 5..10)}]
 
 product = Product.create!(input)
