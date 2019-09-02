@@ -22,7 +22,7 @@ class Cart
   def create_order
     @order = Order.new 
     create_order_items(params[:order_items])
-    unless @order.save && @order_items.each(&:save)
+    unless @order.save
       order_items_errors
       order_errors
     end
@@ -61,7 +61,7 @@ class Cart
   end
 
   def update_discount_for_products
-    @order_items.each {|item| ProductDiscount.new(item).call }
+    @order_items.each {|item| Promotion::ProductDiscount.new(item).call }
   end  
 
   def order_items_errors

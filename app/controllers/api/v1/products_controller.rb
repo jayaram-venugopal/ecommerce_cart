@@ -15,9 +15,9 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def update
-    @product.update("")
-  end
-  
+    @product.update(product_params)
+    json_response(serializer(@product))
+  end  
 
   private
   def product_params

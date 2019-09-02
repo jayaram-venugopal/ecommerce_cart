@@ -1,5 +1,5 @@
 class OrderSerializer  < ActiveModel::Serializer
-  attributes :id, :subtotal, :grand_total, :discount, :status
+  attributes :id, :subtotal, :grand_total, :status
 
   has_many :order_items
 

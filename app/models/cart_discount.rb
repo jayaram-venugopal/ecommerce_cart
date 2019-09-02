@@ -1,0 +1,2 @@
+class CartDiscount < ApplicationRecord
+end
