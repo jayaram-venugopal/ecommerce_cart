@@ -14,6 +14,11 @@ class Api::V1::ProductsController < ApplicationController
     json_response(serializer(@product), :create)
   end
 
+  def update
+    @product.update("")
+  end
+  
+
   private
   def product_params
     params.require(:product).permit(:name, :price, :quantity)

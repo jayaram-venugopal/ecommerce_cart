@@ -43,7 +43,6 @@
     end
 
     def category_d_product_discount
-      p product_price
       @total_price = (order_quantity * product_price)
     end
 

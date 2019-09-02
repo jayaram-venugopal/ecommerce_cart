@@ -1,21 +1,39 @@
 class Api::V1::OrdersController < ApplicationController
-  before_action :find_ptoducts, only: [:create]
-  before_action :set_order, only: [:show, :update, :delete]
+  include Api::V1::OrdersHelper
+
+  before_action :find_products, only: [:create]
+  before_action :set_order, only: [:show, :update, :place_order]
+  before_action :validate_order_status, only: [:update, :place_order]
 
   def create
-    @cart = AddToCart.new(params[:order]).create_order
+    @cart = cart.create_cart
+    return_respone(@cart)
   end
 
+  def update
+    @cart = Cart.new(order_params, @order).update_cart
+    return_respone(@cart)
+  end
+
+  def place_order
+    @order.update(:status => :placed)
+    json_response(serializer(@order))
+  end  
+  
   def show
     json_response(serializer(@order))
   end
 
   private
+  def order_params
+    params.require(:order).permit(order_items: [:product_id, :quantity, :order_id])
+  end
+
   def set_order
     @order = Order.includes(order_items: (:product)).find(params[:id])
-  end
-  
-  def serializer(data)
-    OrderSerializer.new(data)
+  end  
+
+  def cart
+    Cart.new(order_params)
   end
 end
