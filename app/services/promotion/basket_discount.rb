@@ -7,10 +7,9 @@ module Promotion
       @cart_discount = CartDiscount.last
     end
   
-    def call
+    def calculate
       orders_total
-      order.subtotal = @sub_total
-      order.grand_total = @grand_total
+      return @sub_total, @grand_total
     end
 
     private

@@ -24,5 +24,10 @@ RSpec.describe Api::V1::ProductsController, :type => :controller do
     it "returns http success" do
       expect(response.status).to eq(201)
     end
+
+    it "JSON body response contains expected recipe attributes" do
+      json_response = JSON.parse(response.body)
+      expect(json_response.keys).to match_array(["data", "message", "status"])
+    end
   end
 end

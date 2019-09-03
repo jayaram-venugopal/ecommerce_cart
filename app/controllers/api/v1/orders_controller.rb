@@ -7,12 +7,12 @@ class Api::V1::OrdersController < ApplicationController
   before_action :validate_product_avilabe_quantity, only: [:update, :create]
 
   def create
-    @cart = cart.create_cart
+    @cart = cart.create_or_update_cart
     return_respone(@cart)
   end
 
   def update
-    @cart = Cart.new(order_params, @order).update_cart
+    @cart = Cart.new(order_params, @order).create_or_update_cart
     return_respone(@cart)
   end
 

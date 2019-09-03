@@ -9,10 +9,10 @@ module Promotion
       @total_price = 0
     end
 
-    def call
+    def calculate
       calculate_product_price_without_discount if product_discount.blank?
       calculate_product_price_with_discount unless product_discount.blank?
-      order_item.total = @total_price
+      return @total_price
     end
     
     private

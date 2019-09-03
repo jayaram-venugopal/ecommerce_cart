@@ -9,25 +9,25 @@ class OrderItem < ApplicationRecord
   
   before_save :update_discount_for_products
   after_save :update_discount_order_total
-  after_create :update_product_avilable_quantity
   
   def updata_quantity(quantity)
     self.quantity += quantity
   end  
 
-  private
-  def update_product_avilable_quantity
+  def update_product_avilable_quantity(quantity)
     product = self.product
-    quantity = product.avilable_quantity - self.quantity
+    quantity = product.avilable_quantity - quantity
     product.update(:avilable_quantity => quantity)
   end
-  
+
+  private
   def update_discount_for_products
-    Promotion::ProductDiscount.new(self).call
+    self.total = Promotion::ProductDiscount.new(self).calculate
   end
 
   def update_discount_order_total
-    Promotion::BasketDiscount.new(self.order).call
+    order = self.order
+    order.subtotal, order.grand_total = Promotion::BasketDiscount.new(order).calculate
   end
   
 end
