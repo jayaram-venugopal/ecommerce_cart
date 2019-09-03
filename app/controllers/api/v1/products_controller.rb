@@ -10,7 +10,7 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.create(product_params)
+    @product = Product.create!(product_params)
     json_response(serializer(@product), :create)
   end
 

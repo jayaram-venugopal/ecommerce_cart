@@ -6,6 +6,7 @@ module Promotion
       @order_item = order_item
       @product = order_item.product
       @product_discount = @product.product_discount
+      @total_price = 0
     end
 
     def call
@@ -18,9 +19,11 @@ module Promotion
     def calculate_product_price_with_discount
       number_of_group = (order_quantity / discount_quantity)
       number_of_ungroup = (order_quantity % discount_quantity)
-      discount = (product_price - discount_price) unless number_of_group.eql?(0)
-      @total_price = (number_of_group * discount_quantity * discount)
-      @total_price += (number_of_ungroup * product_price) unless number_of_ungroup.eql?(0)
+      unless number_of_group.eql?(0)
+        discount = (product_price - discount_price) 
+        @total_price = (number_of_group * discount_quantity * discount)
+      end
+      @total_price += (number_of_ungroup * product_price).to_f unless number_of_ungroup.eql?(0)
     end
 
     def calculate_product_price_without_discount
