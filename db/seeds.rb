@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-input = [{:name => Faker::Commerce.product_name, :price => 30, :quantity => Faker::Number.within(range: 5..10)}, {:name => Faker::Commerce.product_name, :price => 20, :quantity => Faker::Number.within(range: 5..10)}, {:name => Faker::Commerce.product_name, :price => 50, :quantity => Faker::Number.within(range: 5..10)}, {:name => Faker::Commerce.product_name, :price => 15, :quantity => Faker::Number.within(range: 5..10)}]
+input = [{:name => Faker::Commerce.product_name, :price => 30, :quantity => Faker::Number.between(from: 5, to: 10)}, {:name => Faker::Commerce.product_name, :price => 20, :quantity => Faker::Number.between(from: 5, to: 10)}, {:name => Faker::Commerce.product_name, :price => 50, :quantity => Faker::Number.between(from: 5, to: 10)}, {:name => Faker::Commerce.product_name, :price => 15, :quantity => Faker::Number.between(from: 5, to: 10)}]
 
 @products = Product.create!(input)
 

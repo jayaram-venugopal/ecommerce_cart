@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::ProductsController, type: :controller do
+RSpec.describe Api::V1::ProductsController, type: :controller, :type => :api do
 
   describe "GET #index" do
     it "returns http success" do
