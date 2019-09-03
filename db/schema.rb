@@ -22,21 +22,11 @@ ActiveRecord::Schema.define(version: 2019_09_02_174558) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "multi_buy_discounts", force: :cascade do |t|
-    t.bigint "product_id"
-    t.float "discount_price", default: 0.0, null: false
-    t.integer "no_of_products", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_multi_buy_discounts_on_product_id"
-  end
-
   create_table "order_items", force: :cascade do |t|
     t.bigint "product_id"
     t.bigint "order_id"
     t.integer "quantity", default: 0, null: false
     t.float "total", default: 0.0, null: false
-    t.float "discount", default: 0.0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
@@ -46,7 +36,6 @@ ActiveRecord::Schema.define(version: 2019_09_02_174558) do
   create_table "orders", force: :cascade do |t|
     t.float "subtotal", default: 0.0, null: false
     t.float "grand_total", default: 0.0, null: false
-    t.float "discount", default: 0.0, null: false
     t.string "status", default: "open", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -55,8 +44,8 @@ ActiveRecord::Schema.define(version: 2019_09_02_174558) do
 
   create_table "product_discounts", force: :cascade do |t|
     t.bigint "product_id"
-    t.float "discount_price"
-    t.integer "no_of_products"
+    t.float "discount_price", default: 0.0, null: false
+    t.integer "no_of_products", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_product_discounts_on_product_id"
@@ -72,7 +61,6 @@ ActiveRecord::Schema.define(version: 2019_09_02_174558) do
     t.index ["name"], name: "index_products_on_name", unique: true
   end
 
-  add_foreign_key "multi_buy_discounts", "products"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "product_discounts", "products"

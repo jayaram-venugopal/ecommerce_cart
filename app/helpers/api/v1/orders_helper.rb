@@ -7,24 +7,12 @@ module Api::V1::OrdersHelper
     raise ActiveRecord::RecordNotFound unless products.count.eql?(order_products.count)
   end
 
-  def return_respone(data)
-    json_response(serializer(data)) unless data.class.name.eql?("ErrorSerializer")
-    error_response(data, :unprocessable_entity) if data.class.name.eql?("ErrorSerializer")
-  end
-
-  def serializer(data)
-    OrderSerializer.new(data)
-  end
-
   def validate_product_avilabe_quantity
     error = []
     order_params = params[:order][:order_items]
     order_params.each do |params|
-      @order_item = @order.order_items.includes(:product).find_by(product_id: params[:product_id])
-      if @order_item  
-        @product = @order_item.product 
-        error.push("#{@product.name} out of stock") unless @product.avilable_quantity >= params[:quantity]
-      end
+      @product = Product.find(params[:product_id])
+      error.push("#{@product.name} out of stock") unless @product.avilable_quantity >= params[:quantity]
     end
     render_error_order_status("Out of Stock", error, 422) unless error.empty?
   end
@@ -33,9 +21,19 @@ module Api::V1::OrdersHelper
     render_error_order_status("Order status", "Order is already placed", 422) if @order.placed?
   end
   
+  def serializer(data)
+    OrderSerializer.new(data)
+  end
+  
   def render_error_order_status(message, data, status)
     error_message = Errors::StandardError.new(message, data, status)
     error_serializer = ErrorSerializer.new(error_message)
     error_response(error_serializer, :unprocessable_entity) 
   end
+
+  def return_respone(data)
+    json_response(serializer(data)) unless data.class.name.eql?("ErrorSerializer")
+    error_response(data, :unprocessable_entity) if data.class.name.eql?("ErrorSerializer")
+  end
+
 end

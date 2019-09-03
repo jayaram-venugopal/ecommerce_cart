@@ -47,6 +47,25 @@ A Ecommerce Cart application that allows checkout system/cart that confirms to f
 
 # API
 ## Products
+    /api/v1/products
+    /api/v1/products
+    /api/v1/products/:id
+## Orders
+    /api/v1/orders/:id/place_order
+    /api/v1/orders
+    /api/v1/orders/:id
+    /api/v1/orders/:id
+    /api/v1/orders/:id
+## Promotions
+    /api/v1/promotions/product_promotions
+    /api/v1/promotions/cart_promotions
+    /api/v1/promotions/create_product_promotion
+    /api/v1/promotions/create_cart_promotion
+    /api/v1/promotions/:id/update_product_promotion
+    /api/v1/promotions/:id/update_cart_promotion
+    
+# Sample Request & Response
+## Products
 Create Product 
 
    ```
@@ -143,29 +162,35 @@ Add to cart
 
    Success Response:
     {
-      "status": "Success",
-      "data": {
-          "id": 1,
-          "subtotal": "Rs. 60.0",
-          "grand_total": "Rs. 60.0",
-          "status": "cart",
-          "order_items": [
-              {
-                  "id": 1,
-                  "total": "Rs. 60.0",
-                  "quantity": 2,
-                  "product": {
-                      "id": 1,
-                      "name": "Ergonomic Bronze Plate",
-                      "price": 30.0,
-                      "quantity": 9,
-                      "avilable_quantity": 7,
-                      "quantity_status": "Avilable"
-                  }
-              }
-          ]
-      },
-      "message": ""
+        "status": "Success",
+        "data": {
+            "id": 1,
+            "subtotal": "Rs. 60.0",
+            "grand_total": "Rs. 60.0",
+            "status": "cart",
+            "cart_discount": null,
+            "order_items": [
+                {
+                    "id": 1,
+                    "total": "Rs. 60.0",
+                    "quantity": 2,
+                    "product": {
+                        "id": 1,
+                        "name": "Durable Steel Plate",
+                        "price": 30.0,
+                        "quantity": 9,
+                        "avilable_quantity": 7,
+                        "quantity_status": "Avilable",
+                        "product_discount": {
+                            "id": 1,
+                            "no_of_products": 3,
+                            "discount_price": 5.0
+                        }
+                    }
+                }
+            ]
+        },
+        "message": ""
     }
 
    ```
@@ -174,34 +199,63 @@ Update to cart
 
    ```
    Request:
-    curl -X PUT http://localhost:3000/api/v1/orders/1 -H 'Accept: */*' -d '{"order": {"order_items": [{"product_id": 1,"quantity": 2},{"product_id": 3,"quantity": 2}]}}' 
+    curl -X PUT http://localhost:3000/api/v1/orders/1 -H 'Accept: */*' -d '{"order": {"order_items": [{"product_id": 1,"quantity": 5}]}}' 
 
    Success Response:
     {
-      "status": "Success",
-      "data": {
-          "id": 1,
-          "subtotal": "Rs. 60.0",
-          "grand_total": "Rs. 60.0",
-          "status": "cart",
-          "order_items": [
-              {
-                  "id": 1,
-                  "total": "Rs. 60.0",
-                  "quantity": 2,
-                  "product": {
-                      "id": 1,
-                      "name": "Ergonomic Bronze Plate",
-                      "price": 30.0,
-                      "quantity": 9,
-                      "avilable_quantity": 7,
-                      "quantity_status": "Avilable"
-                  }
-              }
-          ]
-      },
-      "message": ""
+        "status": "Success",
+        "data": {
+            "id": 1,
+            "subtotal": "Rs. 135.0",
+            "grand_total": "Rs. 135.0",
+            "status": "cart",
+            "cart_discount": null,
+            "order_items": [
+                {
+                    "id": 1,
+                    "total": "Rs. 135.0",
+                    "quantity": 5,
+                    "product": {
+                        "id": 1,
+                        "name": "Durable Steel Plate",
+                        "price": 30.0,
+                        "quantity": 9,
+                        "avilable_quantity": 4,
+                        "quantity_status": "Avilable",
+                        "product_discount": {
+                            "id": 1,
+                            "no_of_products": 3,
+                            "discount_price": 5.0
+                        }
+                    }
+                }
+            ]
+        },
+        "message": ""
     }
+   Error Response:
+    {
+        "errors": [
+            {
+                "status": 422,
+                "title": "Order status",
+                "detail": "Order is already placed"
+            }
+        ]
+    }
+    
+    {
+        "errors": [
+            {
+                "status": 422,
+                "title": "Out of Stock",
+                "detail": [
+                    "Awesome Copper Knife out of stock"
+                ]
+            }
+        ]
+    }
+
 
    ```
 
@@ -295,8 +349,105 @@ Place Order
         },
         "message": ""
     }
-   ```
 
+   Error Response:
+    {
+        "errors": [
+            {
+                "status": 422,
+                "title": "Order status",
+                "detail": "Order is already placed"
+            }
+        ]
+    }
+    
+   ```
+## Promotions
+Cart Promotions
+  ```
+   Request:
+    curl -X GET localhost:3000/api/v1/promotions/cart_promotions 
+
+   Success Response:
+    {
+        "status": "Success",
+        "data": [
+            {
+                "id": 1,
+                "discount_price": 20.0,
+                "grand_total": 150.0
+            }
+        ],
+        "message": ""
+    }
+    
+   ```
+Product Promotions
+  ```
+   Request:
+    curl -X GET localhost:3000/api/v1/promotions/product_promotions 
+
+   Success Response:
+    {
+        "status": "Success",
+        "data": [
+            {
+                "id": 1,
+                "no_of_products": 3,
+                "discount_price": 5.0,
+                "product": {
+                    "id": 1,
+                    "name": "Durable Steel Plate",
+                    "price": 30.0,
+                    "quantity": 9,
+                    "avilable_quantity": 9,
+                    "quantity_status": "Avilable"
+                }
+            },
+            {
+                "id": 2,
+                "no_of_products": 2,
+                "discount_price": 2.5,
+                "product": {
+                    "id": 2,
+                    "name": "Sleek Concrete Bench",
+                    "price": 20.0,
+                    "quantity": 5,
+                    "avilable_quantity": 5,
+                    "quantity_status": "Avilable"
+                }
+            }
+        ],
+        "message": ""
+    }
+   ```
+Create Product Promotions
+
+   ```
+   Request:
+    curl -X POST localhost:3000/api/v1/promotions/create_product_promotion -H 'Accept: */*' -d '{"product_discount": {"product_id": 1,"discount_price": 40.0,"no_of_products": 10}}' 
+
+   Success Response:
+    {
+        "status": "Success",
+        "data": {
+            "id": 3,
+            "no_of_products": 10,
+            "discount_price": 40.0,
+            "product": {
+                "id": 1,
+                "name": "Intelligent Cotton Watch",
+                "price": 30.0,
+                "quantity": 8,
+                "avilable_quantity": 2,
+                "quantity_status": "Avilable"
+            }
+        },
+        "message": ""
+    }
+
+   ```
+   
 # Running Tests
 
 1. Make sure "rspec" is installed by running:

@@ -4,7 +4,7 @@ class Api::V1::OrdersController < ApplicationController
   before_action :find_products, only: [:create]
   before_action :set_order, only: [:show, :update, :place_order]
   before_action :validate_order_status, only: [:update, :place_order]
-  before_action :validate_product_avilabe_quantity, only: [:update]
+  before_action :validate_product_avilabe_quantity, only: [:update, :create]
 
   def create
     @cart = cart.create_cart
@@ -31,7 +31,7 @@ class Api::V1::OrdersController < ApplicationController
   end
 
   def set_order
-    @order = Order.includes(order_items: (:product)).find(params[:id])
+    @order ||= Order.find(params[:id])
   end  
 
   def cart

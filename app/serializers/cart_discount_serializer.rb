@@ -1,4 +1,3 @@
-class CartDiscountSerializer
-  include FastJsonapi::ObjectSerializer
-  attributes 
+class CartDiscountSerializer < ActiveModel::Serializer
+  attributes :id, :discount_price, :grand_total
 end

@@ -11,7 +11,6 @@ module Promotion
       orders_total
       order.subtotal = @sub_total
       order.grand_total = @grand_total
-      order.cart_discount_id = @cart_discount.id
     end
 
     private
@@ -20,22 +19,21 @@ module Promotion
       
       unless order_items_prices.empty?
         @sub_total = order_items_prices.compact.reduce(0, :+)
-        upadte_grand_total
+        update_grand_total
       end
     end
 
-    def upadte_grand_total
+    def update_grand_total
+      @grand_total = @sub_total
       if @sub_total >= cart_discount_grand_total
         @grand_total = (@sub_total - discount_price) 
-      else
-        @grand_total = @sub_total
+        order.cart_discount_id = @cart_discount.id 
       end
     end
 
     def cart_discount_grand_total
       @cart_discount.grand_total
-    end
-    
+    end    
 
     def discount_price
       @cart_discount.discount_price
