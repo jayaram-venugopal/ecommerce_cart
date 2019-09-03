@@ -63,7 +63,7 @@ A Ecommerce Cart application that allows checkout system/cart that confirms to f
     /api/v1/promotions/create_cart_promotion
     /api/v1/promotions/:id/update_product_promotion
     /api/v1/promotions/:id/update_cart_promotion
-    
+
 # Sample Request & Response
 ## Products
 Create Product 
@@ -447,6 +447,9 @@ Create Product Promotions
     }
 
    ```
+
+# Postman Collection
+    Read more [here](./public/postman_sample.json)
    
 # Running Tests
 
