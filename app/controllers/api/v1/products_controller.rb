@@ -11,7 +11,7 @@ class Api::V1::ProductsController < ApplicationController
 
   def create
     @product = Product.create!(product_params)
-    json_response(serializer(@product), :create)
+    json_response(serializer(@product), :created)
   end
 
   def update
