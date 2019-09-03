@@ -452,16 +452,18 @@ Create Product Promotions
     Read more [here](./public/postman_sample.json)
    
 # Running Tests
+Make sure "rspec" is installed by running:
 
-1. Make sure "rspec" is installed by running:
-
+## Model testing
    ```sh
-       $ bundle show rspec
+       $ rspec spec/models/product_discount_spec.rb 
+       $ rspec spec/models/cart_discount_spec.rb 
+       $ rspec spec/models/order_item_spec.rb 
+       $ rspec spec/models/order_spec.rb 
+       $ rspec spec/models/product_spec.rb
    ```
 
-   If a path is listed, then rspec is installed.
-
-2. Run rspec for the spec folder through bundle:
+Run rspec for the spec folder through bundle:
    ```sh
        $ bundle exec rspec spec
    ```
